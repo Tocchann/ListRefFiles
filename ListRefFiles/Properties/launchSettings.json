@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ListRefFiles": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Projects\\Morrin\\Products\\ikip\\IKIPInstaller32.ism C:\\Projects\\Morrin\\Products\\ikip\\IKIPInstaller64.ism -o C:\\Projects\\Morrin\\Products\\ikip\\Installer\\bld\\Refer"
+    }
+  }
+}

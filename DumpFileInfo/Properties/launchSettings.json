@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DumpFileInfo": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Projects\\Morrin\\Products\\ikip\\bin\\ToData C:\\Projects\\Morrin\\Products\\ikip\\Installer\\bin\\Refer\\IKIPInstaller32\\bin\\ToData C:\\Projects\\Morrin\\Products\\ikip\\Installer\\bin\\Refer\\IKIPInstaller64\\bin\\ToData"
+    }
+  }
+}
