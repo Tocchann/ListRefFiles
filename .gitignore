@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ローカルな実行設定なのでリポジトリに入れない
-Properties/launchSettings.json
+launchSettings.json
