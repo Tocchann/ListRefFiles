@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ローカルな実行設定なのでリポジトリに入れない
+Properties/launchSettings.json
