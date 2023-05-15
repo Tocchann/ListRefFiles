@@ -19,33 +19,34 @@ if( args.Length < 1 )
 }
 var xmlFiles = new List<string>();
 var outputBase = string.Empty;
-char prevParam = '\0';
+var prevParam = string.Empty;
 bool separate = false;
 foreach( var arg in args )
 {
-	if( arg[0] == '/' || arg[0] == '-' )
+	switch( arg )
 	{
-		prevParam = arg[1];
-	}
-	else if( prevParam != '\0' )
-	{
-		switch( prevParam )
+	case "-s":
+	case "/s":
+		separate = true;
+		break;
+	case "/o":
+	case "-o":
+		prevParam = "-o";
+		break;
+	default:
+		if( prevParam == "-o" )
 		{
-			case 'o':
-				outputBase = Path.GetFullPath( arg );
-				break;
-			case 's':
-				separate = true;
-				break;
+			outputBase = Path.GetFullPath( arg );
+			prevParam = string.Empty;
 		}
-		prevParam = '\0';
-	}
-	else
-	{
-		xmlFiles.Add( Path.GetFullPath( arg ) );
+		else
+		{
+			xmlFiles.Add( Path.GetFullPath( arg ) );
+		}
+		break;
 	}
 }
-if( !string.IsNullOrEmpty(outputBase) && Directory.Exists( outputBase ) )
+if( !string.IsNullOrEmpty( outputBase ) && Directory.Exists( outputBase ) )
 {
 	Directory.Delete( outputBase, true );
 }
@@ -70,10 +71,10 @@ void ListupRefFiles( string xmlPath, string outputBase, bool separate )
 {
 	WriteLine( "" );
 	WriteLine( $"ISMファイル:{xmlPath}" );
-	var baseFolder = Path.GetDirectoryName( xmlPath )??"";
+	var baseFolder = Path.GetDirectoryName( xmlPath ) ?? "";
 	var fileNode = Path.GetFileNameWithoutExtension( xmlPath );
 	var pathVariables = new Dictionary<string, string>();   // パス名変換用テーブル
-	var refFiles = new List<string>();	// ファイル参照するテーブル内のファイルパス一覧
+	var refFiles = new List<string>();  // ファイル参照するテーブル内のファイルパス一覧
 	using( var streamReader = new StreamReader( xmlPath ) )
 	{
 		var settings = new XmlReaderSettings
@@ -155,7 +156,7 @@ void ListupRefFiles( string xmlPath, string outputBase, bool separate )
 		int skipLength = 0;
 		if( pathVariables.TryGetValue( "ISProjectFolder", out var folder ) )
 		{
-			skipLength = folder.Length+1;
+			skipLength = folder.Length + 1;
 		}
 		using( var hashAlgorithm = SHA256.Create() )
 		{
@@ -343,7 +344,7 @@ void ReadRefFileTable( XmlReader xmlReader, List<string> refFiles, List<int> tar
 				}
 				break;
 			case XmlNodeType.EndElement:
-				if( xmlReader.Name == "td")
+				if( xmlReader.Name == "td" )
 				{
 					insideTable = false;
 				}
@@ -378,7 +379,7 @@ void ReadPathVariable( XmlReader xmlReader, Dictionary<string, string> pathVaria
 				8 => GetPathFromRegistry( tableData[1].Split( '\\' ) ),
 				_ => throw new NotImplementedException(),
 			};
-			realPath ??= $"<{tableData[0]}>";	//	変換できない場合はそのままセット
+			realPath ??= $"<{tableData[0]}>";   //	変換できない場合はそのままセット
 			pathVariables.Add( tableData[0], realPath );
 		}
 	}
@@ -413,7 +414,7 @@ List<string> ReadPathVariableTable( XmlReader xmlReader )
 					insideTable = !xmlReader.IsEmptyElement;
 					if( xmlReader.IsEmptyElement )
 					{
-						tableData.Add( "" );	//	空エントリーを追加しておく
+						tableData.Add( "" );    //	空エントリーを追加しておく
 					}
 				}
 				break;
@@ -452,7 +453,7 @@ string? GetPathFromRegistry( string[] regPaths )
 			"HKEY_USERS" => Registry.Users,
 			_ => throw new NotSupportedException( $"RootKey={regPaths[0]}" )
 		};
-		for( int index = 1 ; index < regPaths.Length-1 ; index++ )
+		for( int index = 1 ; index < regPaths.Length - 1 ; index++ )
 		{
 			regKey = regKey?.OpenSubKey( regPaths[index] );
 		}
