@@ -64,7 +64,7 @@ void WriteLine( string value )
 void Usage()
 {
 	var fileName = Path.GetFileNameWithoutExtension( Assembly.GetEntryAssembly()?.Location );
-	Console.WriteLine( $"{fileName} <ismファイルパス(XML形式のみ)> -o <コピー先フォルダ>" );
+	Console.WriteLine( $"{fileName} <ismファイルパス(XML形式のみ)> -o <コピー先フォルダ> -s" );
 }
 
 void ListupRefFiles( string xmlPath, string outputBase, bool separate )
